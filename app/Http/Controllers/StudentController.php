@@ -99,7 +99,9 @@ class StudentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $data = Student::where('id', $id)->first();
+        $data->delete();
+        return redirect()->route('students.index');
     }
 
     public function excel()
