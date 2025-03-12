@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Phone extends Model
 {
     /**
-     * Get the phone associated with the user.
+     * Get the user that owns the phone.
      */
-    public function phone(): HasOne
+    public function studentRelation(): BelongsTo
     {
-        return $this->hasOne(Phone::class);
+        return $this->belongsTo(Student::class);
     }
 }

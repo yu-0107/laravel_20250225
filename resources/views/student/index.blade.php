@@ -16,7 +16,7 @@
     @endphp
 
     <div class="container mt-3">
-        <h2>student Table123 </h2>
+        <h2>Student Table</h2>
         <p>The .table-bordered class adds borders on all sides of the table and the cells:</p>
         <p>
             <a href="{{ route('students.create') }}" class="btn btn-success">add</a>
@@ -32,6 +32,7 @@
                     <th width="10%">NAME</th>
                     <th width="20%">MOBILE</th>
                     <th width="20%">PHONE</th>
+                    <th>hobby</th>
                     <th>OPT</th>
                 </tr>
             </thead>
@@ -45,15 +46,18 @@
                         <td>{{ $value->name }}</td>
                         <td>{{ $value->mobile }}</td>
                         <td>
-                            {{ $value->phone->phone ?? ''}}
+                            {{$value->phoneRelation->phone ?? ''}}
+                        </td>
+                        <td>
+                            {{$value->hobbyString ?? ''}}
                         </td>
                         <td>
                             <form action="{{ route('students.destroy', ['student' => $value->id]) }}" method="post">
                                 @csrf
-                                @method('delete')    
+                                @method('delete')
                                 <a href="{{ route('students.edit', ['student' => $value->id]) }}"
                                     class="btn btn-warning">edit</a>
-                                    <button type="submit" class="btn btn-danger">del</button>
+                                <button type="submit" class="btn btn-danger">del</button>
                             </form>
                         </td>
                     </tr>
