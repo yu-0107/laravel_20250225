@@ -17,4 +17,7 @@ Route::get('/students_hello', [StudentController::class, 'sayHello']);
 Route::resource('students', StudentController::class);
 
 // teachers
+Route::resource('teachers', TeacherController::class);
+
+// cars
 Route::resource('cars', CarController::class);

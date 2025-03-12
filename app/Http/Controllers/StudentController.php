@@ -97,7 +97,14 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        $data = Student::where('id', $id)->with('phoneRelation')->first();
+        $data = Student::where('id', $id)->with('phoneRelation')->with('hobbiesRelation')->first();
+        $tmpArr = [];
+        foreach ($data->hobbiesRelation as $key => $value) {
+            array_push($tmpArr, $value->name);
+        }
+        $tmpString = implode(',', $tmpArr);
+        // $data[$key1]['hobbies'] = $tmpString;
+        $data['hobbyString'] = $tmpString;
 
         return view('student.edit', ['data' => $data]);
     }
@@ -109,6 +116,7 @@ class StudentController extends Controller
     {
         $input = $request->except('_token', '_method');
 
+        $hobbyArr = explode(",", $input['hobbies']);
         //主表
         $data = Student::where('id', $id)->first();
         $data->name = $input['name'];
@@ -123,7 +131,14 @@ class StudentController extends Controller
         $item->student_id = $data->id;
         $item->phone = $input['phone'];
         $item->save();
-
+        
+        // 新增子表 hobbies
+        foreach ($hobbyArr as $key => $value) {
+            $hobby = new Hobby;
+            $hobby->student_id = $data->id;
+            $hobby->name = $value;
+            $hobby->save();
+        }
 
         return redirect()->route('students.index');
     }
